@@ -58,6 +58,7 @@ variable "dockerhub_creds" {
 }
 ```
 
+Set dockerhub login creds as OS environment
 ```bash
 export TF_VAR_dockerhub_creds='{username = "<login_username>", password = "<login_password>"}'
 ```
