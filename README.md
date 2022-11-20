@@ -22,67 +22,47 @@ Root module calls these modules which can also be used separately to create inde
 
 ### Usage
 
+**Option1**: Simple way
+
 ```hcl
-module "codebuild-pipeline-iam-role" {
-  source        = "cloudacode/terraform-aws-codepipline-github-dockerhub/iam"
-  iam_role_name = "${local.project_name_suffix}-role"
-  bucket_arn    = aws_s3_bucket.codebuild-pipeline-bucket.arn
-}
-
-module "codebuild-amd64-project" {
-  source = "cloudacode/terraform-aws-codepipline-github-dockerhub/codebuild"
-
-  bucket_name            = aws_s3_bucket.codebuild-pipeline-bucket.id
-  iam_role_arn           = module.codebuild-pipeline-iam-role.codebuild_iam_role_arn
-  code_repo              = var.git_clone_http_url
-  codebuild_project_name = "${local.project_name_suffix}-amd64"
-  codebuild_image_name   = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
-  codebuild_env_vars = {
-    IMAGE_REPO_NAME = var.dockerhub_repo
-  }
-  codebuild_secret_env_vars = {
-    DOCKERHUB_USERNAME = "${aws_secretsmanager_secret.dockerhub-secret.name}:username"
-    DOCKERHUB_PASSWORD = "${aws_secretsmanager_secret.dockerhub-secret.name}:password"
-  }
-}
-
-module "codebuild-arm64-project" {
-  source = "cloudacode/terraform-aws-codepipline-github-dockerhub/codebuild"
-
-  bucket_name            = aws_s3_bucket.codebuild-pipeline-bucket.id
-  iam_role_arn           = module.codebuild-pipeline-iam-role.codebuild_iam_role_arn
-  code_repo              = var.git_clone_http_url
-  codebuild_project_name = "${local.project_name_suffix}-arm64"
-  codebuild_image_name   = "aws/codebuild/amazonlinux2-aarch64-standard:2.0"
-  codebuild_type         = "ARM_CONTAINER"
-  codebuild_env_vars = {
-    IMAGE_REPO_NAME = var.dockerhub_repo
-  }
-  codebuild_secret_env_vars = {
-    DOCKERHUB_USERNAME = "${aws_secretsmanager_secret.dockerhub-secret.name}:username"
-    DOCKERHUB_PASSWORD = "${aws_secretsmanager_secret.dockerhub-secret.name}:password"
-  }
-}
-
-module "codebuild-manifest-project" {
-  source = "cloudacode/terraform-aws-codepipline-github-dockerhub/codebuild"
-
-  bucket_name            = aws_s3_bucket.codebuild-pipeline-bucket.id
-  iam_role_arn           = module.codebuild-pipeline-iam-role.codebuild_iam_role_arn
-  code_repo              = var.git_clone_http_url
-  codebuild_project_name = "${local.project_name_suffix}-manifest"
-  codebuild_image_name   = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
-  buildspec_file         = "buildspec-manifest.yml"
-  codebuild_env_vars = {
-    IMAGE_REPO_NAME = var.dockerhub_repo
-  }
-  codebuild_secret_env_vars = {
-    DOCKERHUB_USERNAME = "${aws_secretsmanager_secret.dockerhub-secret.name}:username"
-    DOCKERHUB_PASSWORD = "${aws_secretsmanager_secret.dockerhub-secret.name}:password"
-  }
+module "codepipline-github-dockerhub" {
+  source             = "cloudacode/codepipline-github-dockerhub/aws"
+  version            = "~> 0.1.0"
+  region             = "eu-north-1"
+  git_clone_http_url = "https://github.com/cloudacode/python-docker.git"
+  git_branch         = "master"
+  dockerhub_repo     = "cloudacode/python-docker"
+  dockerhub_creds    = { username = "<login_username>", password = "<login_password>" }
 }
 ```
 
+**Option2**: Using OS environment
+
+Instead of defining credentials in a file, OS environment variables can be used in terraform variables like below.
+
+```bash
+export TF_VAR_dockerhub_creds='{username = "<login_username>", password = "<login_password>"}'
+```
+
+```hcl
+module "codepipline-github-dockerhub" {
+  source             = "cloudacode/codepipline-github-dockerhub/aws"
+  version            = "~> 0.1.0"
+  region             = "eu-north-1"
+  git_clone_http_url = "https://github.com/cloudacode/python-docker.git"
+  dockerhub_repo     = "cloudacode/python-docker"
+  dockerhub_creds    = var.dockerhub_creds
+}
+
+variable "dockerhub_creds" {
+  type = object({
+    username = string
+    password = string
+  })
+}
+```
+
+---
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -124,7 +104,7 @@ module "codebuild-manifest-project" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_dockerhub_creds"></a> [dockerhub\_creds](#input\_dockerhub\_creds) | The credentials of the DockerHub | <pre>object({<br>    username = string<br>    password = string<br>  })</pre> | n/a | yes |
 | <a name="input_dockerhub_repo"></a> [dockerhub\_repo](#input\_dockerhub\_repo) | The name of the Docker Registry Repo | `string` | `"cloudacode/python-docker"` | yes |
-| <a name="input_git_branch"></a> [git\_branch](#input\_git\_branch) | The name of the Git branch to be triggered | `string` | `"master"` | yes |
+| <a name="input_git_branch"></a> [git\_branch](#input\_git\_branch) | The name of the Git branch to be triggered | `string` | `"master"` | no |
 | <a name="input_git_clone_http_url"></a> [git\_clone\_http\_url](#input\_git\_clone\_http\_url) | The name of the GitHub Repo HTTP URL | `string` | `"https://github.com/cloudacode/python-docker.git"` | yes |
 | <a name="input_region"></a> [region](#input\_region) | The AWS region of the project | `string` | `"us-east-1"` | no |
 
