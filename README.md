@@ -40,10 +40,6 @@ module "codepipline-github-dockerhub" {
 
 Instead of defining credentials in a file, OS environment variables can be used in terraform variables like below.
 
-```bash
-export TF_VAR_dockerhub_creds='{username = "<login_username>", password = "<login_password>"}'
-```
-
 ```hcl
 module "codepipline-github-dockerhub" {
   source             = "cloudacode/codepipline-github-dockerhub/aws"
@@ -60,6 +56,21 @@ variable "dockerhub_creds" {
     password = string
   })
 }
+```
+
+```bash
+export TF_VAR_dockerhub_creds='{username = "<login_username>", password = "<login_password>"}'
+```
+
+**Run**: the following terraform commands in order:
+
+```
+# Initalize the terraform and set the modules
+terraform init
+# Simulate the changes and verify
+terraform plan
+# Apply the terraform code to deploy defined resources in real world
+terraform apply
 ```
 
 ---
