@@ -26,10 +26,6 @@ resource "aws_secretsmanager_secret_version" "dockerhub-login-creds" {
   secret_string = jsonencode(var.dockerhub_creds)
 }
 
-################################################################################
-# Codepipeline-github-dockerhub Module
-################################################################################
-
 module "codebuild-pipeline-iam-role" {
   source        = "./modules/iam"
   iam_role_name = "${local.project_name_suffix}-role"
