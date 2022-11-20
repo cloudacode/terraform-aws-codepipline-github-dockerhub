@@ -17,7 +17,7 @@ resource "aws_s3_bucket_acl" "codebuild-pipeline-bucket-acl" {
 }
 
 resource "aws_secretsmanager_secret" "dockerhub-secret" {
-  name        = "${local.project_name_suffix}-dockerhub-creds"
+  name        = "${local.project_name_suffix}-${random_id.random-id.dec}-dockerhub-creds"
   description = "Dockerhub login credentials"
 }
 
