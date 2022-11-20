@@ -59,7 +59,7 @@ Users have the ability to:
   export TF_VAR_dockerhub_creds='{username = "<login_username>", password = "<login_password>"}'
   ```
 
-- **Run**: the following terraform commands in order:
+- **Run**: the following terraform commands in order
 
   ```
   # Initalize the terraform and set the modules
@@ -69,6 +69,19 @@ Users have the ability to:
   # Apply the terraform code to deploy defined resources in real world
   terraform apply
   ```
+
+- **Verify connnection**: login to [AWS codestar](console.aws.amazon.com/codesuite/settings/connections) and Authenticate the GitHub connection
+
+    !!! INFO<br>
+    The aws_codestarconnections_connection resource is created in the state PENDING. Authentication with the connection provider must be completed in the AWS Console.
+
+- **Clean up**: the follwing terraform commands to destroy all resources
+
+  ```
+  terraform destroy
+  ```
+  !!! INFO<br>
+  Due to the logs are stored in the S3 Bucket, you might get error message (*deleting S3 Bucket : BucketNotEmpty: The bucket you tried to delete is not empty*) that can't delete the S3 bucket via terraform. In that case, you should **clean up/empty all datas in S3 bucket first** and try terraform destroy again.
 
 ## Authors
 
