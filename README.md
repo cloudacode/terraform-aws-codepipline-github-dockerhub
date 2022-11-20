@@ -2,6 +2,8 @@
 
 Terraform module which build multiple architecture docker images using AWS CodeBuild and AWS CodePipeline
 
+[Blog - How to Automate Building Multi-Architecture Container Images](https://blog.cloudacode.com/how-to-automate-building-multi-architecture-container-images-4c57c759cb2c)
+
 ---
 # Terraform for building multi-architecture docker images using AWS CodeBuild and AWS CodePipeline
 
