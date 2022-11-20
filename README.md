@@ -25,7 +25,7 @@ Users have the ability to:
   ```hcl
   module "codepipline-github-dockerhub" {
     source             = "cloudacode/codepipline-github-dockerhub/aws"
-    version            = ">= 0.1.3"
+    version            = ">= 0.1.4"
     region             = "eu-north-1"
     git_clone_http_url = "https://github.com/cloudacode/python-docker.git"
     git_branch         = "master"
@@ -41,7 +41,7 @@ Users have the ability to:
   ```hcl
   module "codepipline-github-dockerhub" {
     source             = "cloudacode/codepipline-github-dockerhub/aws"
-    version            = ">= 0.1.3"
+    version            = ">= 0.1.4"
     region             = "eu-north-1"
     git_clone_http_url = "https://github.com/cloudacode/python-docker.git"
     dockerhub_repo     = "cloudacode/python-docker"
@@ -56,12 +56,14 @@ Users have the ability to:
   }
   ```
 
-  Set dockerhub login creds as OS environment
+  Set dockerhub login creds as an OS environment.
   ```bash
   export TF_VAR_dockerhub_creds='{username = "<login_username>", password = "<login_password>"}'
   ```
 
-- **Run**: the following terraform commands in order
+- **Configure**: GitHub repo should have a [buildspec.yml](https://github.com/cloudacode/python-docker/blob/main/buildspec.yml) and [buildspec-manifest.yml](https://github.com/cloudacode/python-docker/blob/main/buildspec-manifest.yml) before applying terraform code.
+
+- **Apply**: the following terraform commands in order.
 
   ```
   # Initalize the terraform and set the modules
@@ -72,13 +74,13 @@ Users have the ability to:
   terraform apply
   ```
 
-- **Verify connnection**: login to [AWS codestar](https://console.aws.amazon.com/codesuite/settings/connections) and authenticate the GitHub connection
+- **Verify connnection**: login to [AWS codestar](https://console.aws.amazon.com/codesuite/settings/connections) and authenticate the GitHub connection.
 
     !!! INFO<br>
     The aws_codestarconnections_connection resource is created in the state PENDING. Authentication with the connection provider must be completed in the AWS Console.
     ![codestar-connection-pending](./codestar-connection-pending.png)
 
-- **Clean up**: the follwing terraform commands to delete all resources
+- **Clean up**: the follwing terraform commands to delete all resources.
 
   ```
   terraform destroy
