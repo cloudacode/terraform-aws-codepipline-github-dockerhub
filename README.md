@@ -9,70 +9,70 @@ With CodePipeline and CodeBuild, we can automate the creation of architecture-sp
 
 ![multi-architecture-build](./multi-architecture-build.jpg)
 
-## Who created this Module?
-
-Module is maintained by [KC Chang](https://github.com/cloudacode).
-
-## How to use this Module
-
 Root module calls these modules which can also be used separately to create independent resources:
 
 - [codebuild](./modules/codebuild/) - creates CodeBuild projects
 - [iam](./modules/iam/) - creates IAM role and Policy for projects
 
-### Usage
+## Usage
 
-**Option1**: Simple way
+Users have the ability to:
 
-```hcl
-module "codepipline-github-dockerhub" {
-  source             = "cloudacode/codepipline-github-dockerhub/aws"
-  version            = "~> 0.1.0"
-  region             = "eu-north-1"
-  git_clone_http_url = "https://github.com/cloudacode/python-docker.git"
-  git_branch         = "master"
-  dockerhub_repo     = "cloudacode/python-docker"
-  dockerhub_creds    = { username = "<login_username>", password = "<login_password>" }
-}
-```
+- **Option1**: Simple way
 
-**Option2**: Using OS environment
+  ```hcl
+  module "codepipline-github-dockerhub" {
+    source             = "cloudacode/codepipline-github-dockerhub/aws"
+    version            = "~> 0.1.0"
+    region             = "eu-north-1"
+    git_clone_http_url = "https://github.com/cloudacode/python-docker.git"
+    git_branch         = "master"
+    dockerhub_repo     = "cloudacode/python-docker"
+    dockerhub_creds    = { username = "<login_username>", password = "<login_password>" }
+  }
+  ```
 
-Instead of defining credentials in a file, OS environment variables can be used in terraform variables like below.
+- **Option2**: Using OS environment
 
-```hcl
-module "codepipline-github-dockerhub" {
-  source             = "cloudacode/codepipline-github-dockerhub/aws"
-  version            = "~> 0.1.0"
-  region             = "eu-north-1"
-  git_clone_http_url = "https://github.com/cloudacode/python-docker.git"
-  dockerhub_repo     = "cloudacode/python-docker"
-  dockerhub_creds    = var.dockerhub_creds
-}
+  Instead of defining credentials in a file, OS environment variables can be used in terraform variables like below.
 
-variable "dockerhub_creds" {
-  type = object({
-    username = string
-    password = string
-  })
-}
-```
+  ```hcl
+  module "codepipline-github-dockerhub" {
+    source             = "cloudacode/codepipline-github-dockerhub/aws"
+    version            = "~> 0.1.0"
+    region             = "eu-north-1"
+    git_clone_http_url = "https://github.com/cloudacode/python-docker.git"
+    dockerhub_repo     = "cloudacode/python-docker"
+    dockerhub_creds    = var.dockerhub_creds
+  }
 
-Set dockerhub login creds as OS environment
-```bash
-export TF_VAR_dockerhub_creds='{username = "<login_username>", password = "<login_password>"}'
-```
+  variable "dockerhub_creds" {
+    type = object({
+      username = string
+      password = string
+    })
+  }
+  ```
 
-**Run**: the following terraform commands in order:
+  Set dockerhub login creds as OS environment
+  ```bash
+  export TF_VAR_dockerhub_creds='{username = "<login_username>", password = "<login_password>"}'
+  ```
 
-```
-# Initalize the terraform and set the modules
-terraform init
-# Simulate the changes and verify
-terraform plan
-# Apply the terraform code to deploy defined resources in real world
-terraform apply
-```
+- **Run**: the following terraform commands in order:
+
+  ```
+  # Initalize the terraform and set the modules
+  terraform init
+  # Simulate the changes and verify
+  terraform plan
+  # Apply the terraform code to deploy defined resources in real world
+  terraform apply
+  ```
+
+## Authors
+
+Module is maintained by [KC Chang](https://github.com/cloudacode).
 
 ---
 <!-- BEGIN_TF_DOCS -->
@@ -124,13 +124,13 @@ terraform apply
 
 | Name | Description |
 |------|-------------|
-| <a name="output_codebuild_amd64_project_name"></a> [codebuild\_amd64\_project\_name](#output\_codebuild\_amd64\_project\_name) | project name for cloudbuild |
-| <a name="output_codebuild_arm64_project_name"></a> [codebuild\_arm64\_project\_name](#output\_codebuild\_arm64\_project\_name) | project name for cloudbuild |
-| <a name="output_codebuild_manifest_project_name"></a> [codebuild\_manifest\_project\_name](#output\_codebuild\_manifest\_project\_name) | project name for cloudbuild |
-| <a name="output_codepipeline_project_name"></a> [codepipeline\_project\_name](#output\_codepipeline\_project\_name) | project name for cloudpipeline |
-| <a name="output_codestart_connection_name"></a> [codestart\_connection\_name](#output\_codestart\_connection\_name) | name for codestar connection |
-| <a name="output_dockerhub_secretmanager_name"></a> [dockerhub\_secretmanager\_name](#output\_dockerhub\_secretmanager\_name) | n/a |
-| <a name="output_s3_bucket_name"></a> [s3\_bucket\_name](#output\_s3\_bucket\_name) | name for s3 bucket |
+| <a name="output_codebuild_amd64_project_name"></a> [codebuild\_amd64\_project\_name](#output\_codebuild\_amd64\_project\_name) | The project name for cloudbuild amd64 |
+| <a name="output_codebuild_arm64_project_name"></a> [codebuild\_arm64\_project\_name](#output\_codebuild\_arm64\_project\_name) | The project name for cloudbuild arm64 |
+| <a name="output_codebuild_manifest_project_name"></a> [codebuild\_manifest\_project\_name](#output\_codebuild\_manifest\_project\_name) | The project name for cloudbuild manifest |
+| <a name="output_codepipeline_project_name"></a> [codepipeline\_project\_name](#output\_codepipeline\_project\_name) | The project name of cloudpipeline |
+| <a name="output_codestart_connection_name"></a> [codestart\_connection\_name](#output\_codestart\_connection\_name) | The name of codestar connection |
+| <a name="output_dockerhub_secretmanager_name"></a> [dockerhub\_secretmanager\_name](#output\_dockerhub\_secretmanager\_name) | The secretmanager name of dockerhub login creds |
+| <a name="output_s3_bucket_name"></a> [s3\_bucket\_name](#output\_s3\_bucket\_name) | The name of s3 bucket |
 <!-- END_TF_DOCS -->
 
 ## License
