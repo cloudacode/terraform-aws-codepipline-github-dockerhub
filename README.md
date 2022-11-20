@@ -23,7 +23,7 @@ Users have the ability to:
   ```hcl
   module "codepipline-github-dockerhub" {
     source             = "cloudacode/codepipline-github-dockerhub/aws"
-    version            = "~> 0.1.0"
+    version            = "~> 0.1.2"
     region             = "eu-north-1"
     git_clone_http_url = "https://github.com/cloudacode/python-docker.git"
     git_branch         = "master"
@@ -39,7 +39,7 @@ Users have the ability to:
   ```hcl
   module "codepipline-github-dockerhub" {
     source             = "cloudacode/codepipline-github-dockerhub/aws"
-    version            = "~> 0.1.0"
+    version            = "~> 0.1.2"
     region             = "eu-north-1"
     git_clone_http_url = "https://github.com/cloudacode/python-docker.git"
     dockerhub_repo     = "cloudacode/python-docker"
