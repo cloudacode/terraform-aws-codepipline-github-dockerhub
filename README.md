@@ -14,6 +14,8 @@ Root module calls these modules which can also be used separately to create inde
 - [codebuild](./modules/codebuild/) - creates CodeBuild projects
 - [iam](./modules/iam/) - creates IAM role and Policy for projects
 
+Reference - [AWS DevOps Blog: Creating multi-architecture Docker images to support Graviton2 using AWS CodeBuild and AWS CodePipeline](https://aws.amazon.com/blogs/devops/creating-multi-architecture-docker-images-to-support-graviton2-using-aws-codebuild-and-aws-codepipeline/)
+
 ## Usage
 
 Users have the ability to:
@@ -23,7 +25,7 @@ Users have the ability to:
   ```hcl
   module "codepipline-github-dockerhub" {
     source             = "cloudacode/codepipline-github-dockerhub/aws"
-    version            = "~> 0.1.2"
+    version            = ">= 0.1.2"
     region             = "eu-north-1"
     git_clone_http_url = "https://github.com/cloudacode/python-docker.git"
     git_branch         = "master"
@@ -39,7 +41,7 @@ Users have the ability to:
   ```hcl
   module "codepipline-github-dockerhub" {
     source             = "cloudacode/codepipline-github-dockerhub/aws"
-    version            = "~> 0.1.2"
+    version            = ">= 0.1.2"
     region             = "eu-north-1"
     git_clone_http_url = "https://github.com/cloudacode/python-docker.git"
     dockerhub_repo     = "cloudacode/python-docker"
@@ -70,10 +72,11 @@ Users have the ability to:
   terraform apply
   ```
 
-- **Verify connnection**: login to [AWS codestar](console.aws.amazon.com/codesuite/settings/connections) and Authenticate the GitHub connection
+- **Verify connnection**: login to [AWS codestar](https://console.aws.amazon.com/codesuite/settings/connections) and authenticate the GitHub connection
 
     !!! INFO<br>
     The aws_codestarconnections_connection resource is created in the state PENDING. Authentication with the connection provider must be completed in the AWS Console.
+    ![codestar-connection-pending](./codestar-connection-pending.png)
 
 - **Clean up**: the follwing terraform commands to delete all resources
 
