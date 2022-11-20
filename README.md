@@ -75,13 +75,13 @@ Users have the ability to:
     !!! INFO<br>
     The aws_codestarconnections_connection resource is created in the state PENDING. Authentication with the connection provider must be completed in the AWS Console.
 
-- **Clean up**: the follwing terraform commands to destroy all resources
+- **Clean up**: the follwing terraform commands to delete all resources
 
   ```
   terraform destroy
   ```
   !!! INFO<br>
-  Due to the logs are stored in the S3 Bucket, you might get error message (*deleting S3 Bucket : BucketNotEmpty: The bucket you tried to delete is not empty*) that can't delete the S3 bucket via terraform. In that case, you should **clean up/empty all datas in S3 bucket first** and try terraform destroy again.
+  Due to the logs are stored in the S3 Bucket, you might get error message (*deleting S3 Bucket : BucketNotEmpty: The bucket you tried to delete is not empty*) that can't delete the S3 bucket via terraform. In that case, you should **clean up/delete all objects in the S3 bucket first** and try terraform destroy again.
 
 ## Authors
 
